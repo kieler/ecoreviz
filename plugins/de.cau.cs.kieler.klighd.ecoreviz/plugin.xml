@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="de.cau.cs.kieler.klighd.diagramSyntheses">
+   <diagramSynthesis
+         class="de.cau.cs.kieler.klighd.syntheses.GuiceBasedSynthesisFactory:de.cau.cs.kieler.klighd.ecoreviz.EcoreDiagramSynthesis"
+         id="de.cau.cs.kieler.klighd.ecoreviz.EcoreDiagramSynthesis">
+   </diagramSynthesis>
+   </extension>
+<extension
+      point="org.eclipse.ui.commands">
+   <category
+         description="EModelElementCollection diagrams"
+         id="de.cau.cs.kieler.klighd.ecoreviz.EModelElementCollectionDiagrams"
+         name="EModelElementCollectionDiagrams">
+   </category>
+   <command
+         categoryId="de.cau.cs.kieler.klighd.ecoreviz.EModelElementCollectionDiagrams"
+         defaultHandler="de.cau.cs.kieler.klighd.ecoreviz.OpenDiagramHandler"
+         description="Primitive helper command that opens KLighD-based EModelElementCollection diagrams."
+         id="de.cau.cs.kieler.klighd.ecoreviz.openEModelElementCollectionDiagram"
+         name="Open EModelElementCollection diagram">
+   </command>
+</extension>
+
+<extension
+      point="org.eclipse.ui.menus">
+   <menuContribution
+         locationURI="popup:org.eclipse.ui.popup.any?before=additions">
+      <command
+            commandId="de.cau.cs.kieler.klighd.ecoreviz.openEModelElementCollectionDiagram"
+            label="Open Ecore Diagram View"
+            style="push">
+            
+         <visibleWhen
+               checkEnabled="false">
+            <iterate>
+               <or>
+                  <instanceof
+                        value="org.eclipse.emf.ecoretools.diagram.navigator.EcoreDomainNavigatorItem">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.emf.ecore.EModelElement">
+                  </instanceof>
+               </or></iterate>
+         </visibleWhen>
+
+      </command>
+   </menuContribution>
+</extension>
+</plugin>
