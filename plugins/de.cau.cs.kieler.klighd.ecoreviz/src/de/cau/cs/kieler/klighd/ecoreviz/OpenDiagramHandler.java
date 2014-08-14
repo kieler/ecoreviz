@@ -1,3 +1,16 @@
+/*
+ * KIELER - Kiel Integrated Environment for Layout Eclipse RichClient
+ *
+ * http://www.informatik.uni-kiel.de/rtsys/kieler/
+ * 
+ * Copyright 2014 by
+ * + Christian-Albrechts-University of Kiel
+ *   + Department of Computer Science
+ *     + Real-Time and Embedded Systems Group
+ * 
+ * This code is provided under the terms of the Eclipse Public License (EPL).
+ * See the file epl-v10.html for the license text.
+ */
 package de.cau.cs.kieler.klighd.ecoreviz;
 
 import java.util.LinkedList;
@@ -19,7 +32,9 @@ import de.cau.cs.kieler.klighd.ui.DiagramViewManager;
 import de.cau.cs.kieler.klighd.util.KlighdSynthesisProperties;
 
 /**
- * A simple handler for opening diagrams.
+ * Handler for opening ecore diagrams.
+ * 
+ * @author ckru
  */
 public class OpenDiagramHandler extends AbstractHandler {
 
@@ -48,7 +63,7 @@ public class OpenDiagramHandler extends AbstractHandler {
             EModelElementCollection model = EModelElementCollection.of(listSelection.iterator());
             
             DiagramViewManager.createView(
-                    "de.cau.cs.kieler.klighd.ecoreviz.EModelElementCollectionDiagram", "EModelElementCollection Diagram", model, KlighdSynthesisProperties.newInstance());
+                    "de.cau.cs.kieler.klighd.ecoreviz.EModelElementCollectionDiagram", "Ecore Diagram", model, KlighdSynthesisProperties.newInstance());
         } else {
             MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Unsupported element",
                     "KLighD diagram synthesis is unsupported for the current selection "
