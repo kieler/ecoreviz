@@ -11,7 +11,7 @@
  * This code is provided under the terms of the Eclipse Public License (EPL).
  * See the file epl-v10.html for the license text.
  */
-package de.cau.cs.kieler.klighd.ecoreviz;
+package de.cau.cs.kieler.ecoreviz;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,7 +63,7 @@ public class OpenDiagramHandler extends AbstractHandler {
             EModelElementCollection model = EModelElementCollection.of(listSelection.iterator());
             
             DiagramViewManager.createView(
-                    "de.cau.cs.kieler.klighd.ecoreviz.EModelElementCollectionDiagram", "Ecore Diagram", model, KlighdSynthesisProperties.newInstance());
+                    "de.cau.cs.kieler.ecoreviz.EModelElementCollectionDiagram", "Ecore Diagram", model, KlighdSynthesisProperties.newInstance());
         } else {
             MessageDialog.openInformation(HandlerUtil.getActiveShell(event), "Unsupported element",
                     "KLighD diagram synthesis is unsupported for the current selection "

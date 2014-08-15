@@ -11,7 +11,7 @@
  * This code is provided under the terms of the Eclipse Public License (EPL).
  * See the file epl-v10.html for the license text.
  */
-package de.cau.cs.kieler.klighd.ecoreviz
+package de.cau.cs.kieler.ecoreviz
 
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.Lists
@@ -254,7 +254,7 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
                                     it.setAreaPlacementData.from(LEFT, 20, 0, TOP, 1, 0.5f).to(RIGHT, 20, 0, BOTTOM, 10, 0);
                                 ];
                             } else {
-                                it.addImage("de.cau.cs.kieler.klighd.ecoreviz", "icons/Class.png")
+                                it.addImage("de.cau.cs.kieler.ecoreviz", "icons/Class.png")
                                     .setPointPlacementData(LEFT, 20, 0, TOP, 0, 0.5f, H_CENTRAL, V_CENTRAL, 10, 10, 20, 20)
                                     .addEllipticalClip; //.setAreaPlacementData.from(LEFT, 3, 0, TOP, 3, 0).to(RIGHT, 3, 0, BOTTOM, 3, 0);
                                 it.addText(clazz.name.nullToEmpty).putToLookUpWith(clazz) => [

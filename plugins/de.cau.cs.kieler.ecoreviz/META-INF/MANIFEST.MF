@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Kieler Ecore Diagram View
 Bundle-Vendor: Christian-Albrechts-Universität zu Kiel
 Bundle-Version: 0.1.0.qualifier
-Bundle-SymbolicName: de.cau.cs.kieler.klighd.ecoreviz; singleton:=true
+Bundle-SymbolicName: de.cau.cs.kieler.ecoreviz; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javax.inject,
  com.google.guava,
