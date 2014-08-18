@@ -6,6 +6,12 @@ Ecore models just by clicking a context menu entry on your Eclipse project brows
 The whole thing is based on the [KIELER Lightweight Diagrams (KLighD)](http://www.informatik.uni-kiel.de/rtsys/kieler/) framework.
 
 
+Usage
+-----
+Right-click an Ecore model or one of its elements (in the Project Explorer) and select _Visualize Ecore Model_.
+
+![usage example](https://raw.githubusercontent.com/OpenKieler/ecoreviz/master/doc/ecoreviz.jpg) 
+
 Building
 --------
 
