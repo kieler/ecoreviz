@@ -30,7 +30,7 @@
          locationURI="popup:org.eclipse.ui.popup.any?before=additions">
       <command
             commandId="de.cau.cs.kieler.ecoreviz.openEModelElementCollectionDiagram"
-            label="Open Ecore Diagram View"
+            label="Visualize Ecore Model"
             style="push">
             
          <visibleWhen
@@ -42,6 +42,9 @@
                   </instanceof>
                   <instanceof
                         value="org.eclipse.emf.ecore.EModelElement">
+                  </instanceof>
+                  <instanceof
+                        value="org.eclipse.core.resources.IFile">
                   </instanceof>
                </or></iterate>
          </visibleWhen>
