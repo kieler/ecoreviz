@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>de.cau.cs.kieler.ecoreviz</groupId>
   <artifactId>parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  
+  
   <!-- ============================================================================================ -->
   <!-- Define a few properties used throughout all build profiles. -->
   <properties>
-    <tycho-version>0.18.1</tycho-version>
+    <tycho-version>0.21.0</tycho-version>
     <targetJdk>1.5</targetJdk>
+    
     <!-- chsch: copied from https://eclipse.googlesource.com/recommenders/org.eclipse.recommenders/+/3dae4575d3370da2da25a1cbce3dfcff198f0611/features/pom.xml -->
     <!-- Non-breakable space, as normal spaces are trimmed. -->
     <sourceFeatureLabelSuffix>&#xA0;(Sources)</sourceFeatureLabelSuffix>
+    
     <!-- guarantee that we use utf8 for compilation, this is especially required
-due to xtend's template symbols () when running maven on windows. -->
+         due to xtend's template symbols («) when running maven on windows. -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
     <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
   </properties>
+  
+  
   <!-- ============================================================================================ -->
   <!-- Define build profiles that control what will be built against which update sites. -->
   <profiles>
