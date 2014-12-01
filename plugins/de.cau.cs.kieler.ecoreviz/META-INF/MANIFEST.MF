@@ -7,16 +7,14 @@ Bundle-SymbolicName: de.cau.cs.kieler.ecoreviz; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javax.inject,
  com.google.guava,
- com.google.inject,
  org.eclipse.xtext.xbase.lib,
  de.cau.cs.kieler.core.krendering,
  de.cau.cs.kieler.core.krendering.extensions,
  de.cau.cs.kieler.kiml,
  de.cau.cs.kieler.klighd,
  de.cau.cs.kieler.klighd.ui,
- de.cau.cs.kieler.klighd.piccolo,
+ org.eclipse.core.resources,
  org.eclipse.ui,
  org.eclipse.ui.ide.application,
- org.eclipse.ui.navigator.resources,
- org.eclipse.emf.ecoretools.diagram;bundle-version="1.2.0"
+ org.eclipse.ui.navigator.resources
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

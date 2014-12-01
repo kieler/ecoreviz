@@ -23,7 +23,6 @@
          name="Open EModelElementCollection diagram">
    </command>
 </extension>
-
 <extension
       point="org.eclipse.ui.menus">
    <menuContribution
@@ -32,14 +31,10 @@
             commandId="de.cau.cs.kieler.ecoreviz.openEModelElementCollectionDiagram"
             label="Visualize Ecore Model"
             style="push">
-            
          <visibleWhen
                checkEnabled="false">
             <iterate>
                <or>
-                  <instanceof
-                        value="org.eclipse.emf.ecoretools.diagram.navigator.EcoreDomainNavigatorItem">
-                  </instanceof>
                   <instanceof
                         value="org.eclipse.emf.ecore.EModelElement">
                   </instanceof>
@@ -48,7 +43,6 @@
                   </instanceof>
                </or></iterate>
          </visibleWhen>
-
       </command>
    </menuContribution>
 </extension>
