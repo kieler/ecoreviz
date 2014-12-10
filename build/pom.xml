@@ -11,7 +11,8 @@
   <!-- ============================================================================================ -->
   <!-- Define a few properties used throughout all build profiles. -->
   <properties>
-    <tycho-version>0.21.0</tycho-version>
+    <tycho-version>0.22.0</tycho-version>
+    <xtend-version>2.7.3</xtend-version>
     <targetJdk>1.5</targetJdk>
     
     <!-- chsch: copied from https://eclipse.googlesource.com/recommenders/org.eclipse.recommenders/+/3dae4575d3370da2da25a1cbce3dfcff198f0611/features/pom.xml -->
@@ -32,9 +33,11 @@
     <!-- ecoreViz -->
     <profile>
       <id>ecoreviz</id>
+
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
+
       <repositories>
         <repository>
           <id>p2.targetPlatform</id>
@@ -47,6 +50,7 @@
           <url>http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/release_pragmatics_2014-05/</url>
         </repository>
       </repositories>
+
       <modules>
         <module>../plugins</module>
         <module>../features</module>
@@ -54,6 +58,8 @@
       </modules>
     </profile>
   </profiles>
+
+
   <!-- ============================================================================================ -->
   <!-- Maven plugin repositories -->
   <pluginRepositories>
@@ -66,13 +72,15 @@
       <id>jboss-releases</id>
       <name>JBoss Releases Maven Repository</name>
       <url>https://repository.jboss.org/nexus/content/repositories/releases/</url>
-      <!--
-<releases>
-<enabled>true</enabled>
-</releases>
+<!--
+      <releases>
+        <enabled>true</enabled>
+      </releases>
 -->
     </pluginRepository>
   </pluginRepositories>
+
+
   <!-- ============================================================================================ -->
   <!-- Modify the build process to add Tycho and configure some utility plug-ins. -->
   <build>
@@ -84,6 +92,7 @@
         <version>${tycho-version}</version>
         <extensions>true</extensions>
       </plugin>
+
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
         <artifactId>tycho-source-plugin</artifactId>
@@ -97,16 +106,7 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-pmd-plugin</artifactId>
-        <version>2.7.1</version>
-        <configuration>
-          <targetJdk>1.5</targetJdk>
-          <format>xml</format>
-          <!-- <aggregate>true</aggregate> -->
-        </configuration>
-      </plugin>
+
       <!-- as we have platform specific fragments we need to tell tycho about target platforms -->
       <plugin>
         <groupId>org.eclipse.tycho</groupId>
@@ -148,17 +148,20 @@
         </configuration>
       </plugin>
     </plugins>
+
     <pluginManagement>
       <plugins>
+
         <!-- maven xtend plugin to tell maven how to compile xtend code -->
         <plugin>
           <groupId>org.eclipse.xtend</groupId>
           <artifactId>xtend-maven-plugin</artifactId>
-          <version>2.4.2</version>
+          <version>${xtend-version}</version>
           <configuration>
             <outputDirectory>${basedir}/xtend-gen</outputDirectory>
           </configuration>
         </plugin>
+
         <!-- add src-gen and xtend-gen to source-directories -->
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -182,6 +185,7 @@
             </execution>
           </executions>
         </plugin>
+
         <!-- generated code needs cleanup too -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
