@@ -100,8 +100,8 @@ public class OpenDiagramHandler extends AbstractHandler {
                         try {
                             IFile f = (IFile) o;
                             ResourceSet rs = new ResourceSetImpl();
-                            Resource r = rs.getResource(URI.createFileURI(f.getFullPath().toString()),
-                                            true);
+                            Resource r = rs.getResource(URI.createPlatformResourceURI(
+                                    f.getFullPath().toString(), true), true);
                             if (r.getContents().size() > 0) {
                                 if (r.getContents().get(0) instanceof EPackage) {
                                     listSelection.add((EModelElement) r.getContents().get(0));
