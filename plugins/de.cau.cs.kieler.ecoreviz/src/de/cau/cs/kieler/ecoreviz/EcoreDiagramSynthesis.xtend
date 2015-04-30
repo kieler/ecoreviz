@@ -220,7 +220,7 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
     
     def createClassifierFigures(Iterable<EClassifier> classes, KNode rootNode) {
         classes.filterNull.forEach[ EClassifier clazz |
-            rootNode.children += clazz.createNode().putToLookUpWith(clazz) => [
+            rootNode.children += clazz.createNode().associateWith(clazz) => [
                 it.addRectangle => [
                     it.lineWidth = 2;
                     it.setBackgroundGradient("white".color, "LemonChiffon".color, 0)
@@ -242,7 +242,7 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
                                     it.verticalAlignment = V_CENTRAL;
                                     it.setAreaPlacementData.from(LEFT, 20, 0, TOP, 10, 0).to(RIGHT, 20, 0, BOTTOM, 1, 0.5f);
                                 ];
-                                it.addText(clazz.name.nullToEmpty).putToLookUpWith(clazz) => [
+                                it.addText(clazz.name.nullToEmpty).associateWith(clazz) => [
                                     it.fontSize = 15;
                                     it.fontBold = true;
                                     it.cursorSelectable = false;
@@ -252,7 +252,7 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
                                 it.addImage("de.cau.cs.kieler.ecoreviz", "icons/Class.png")
                                     .setPointPlacementData(LEFT, 20, 0, TOP, 0, 0.5f, H_CENTRAL, V_CENTRAL, 10, 10, 20, 20)
                                     .addEllipticalClip; //.setAreaPlacementData.from(LEFT, 3, 0, TOP, 3, 0).to(RIGHT, 3, 0, BOTTOM, 3, 0);
-                                it.addText(clazz.name.nullToEmpty).putToLookUpWith(clazz) => [
+                                it.addText(clazz.name.nullToEmpty).associateWith(clazz) => [
                                     it.fontSize = 15;
                                     it.fontBold = true;
                                     it.cursorSelectable = false;
@@ -328,7 +328,7 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
             it.addPolyline() => [
                 it.lineWidth = 2;
                 it.foreground = "gray25".color
-                it.addArrowDecorator();
+                it.addHeadArrowDecorator();
                 if (ref.containment) {
                     it.addPolygon() => [
                         it.points += createKPosition(LEFT, 0, 0, TOP, 0, 0.5f);
