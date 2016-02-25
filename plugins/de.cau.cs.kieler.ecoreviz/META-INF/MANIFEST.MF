@@ -17,4 +17,4 @@ Require-Bundle: javax.inject,
  de.cau.cs.kieler.kiml,
  de.cau.cs.kieler.klighd;bundle-version="0.6.0",
  de.cau.cs.kieler.klighd.ui
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
