@@ -16,22 +16,21 @@ package de.cau.cs.kieler.ecoreviz
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.Lists
 import com.google.common.collect.Sets
-import de.cau.cs.kieler.core.kgraph.KNode
-import de.cau.cs.kieler.core.krendering.KContainerRendering
-import de.cau.cs.kieler.core.krendering.extensions.KColorExtensions
-import de.cau.cs.kieler.core.krendering.extensions.KContainerRenderingExtensions
-import de.cau.cs.kieler.core.krendering.extensions.KEdgeExtensions
-import de.cau.cs.kieler.core.krendering.extensions.KNodeExtensions
-import de.cau.cs.kieler.core.krendering.extensions.KPolylineExtensions
-import de.cau.cs.kieler.core.krendering.extensions.KRenderingExtensions
-import de.cau.cs.kieler.core.util.Pair
-import de.cau.cs.kieler.kiml.options.Direction
-import de.cau.cs.kieler.kiml.options.EdgeType
-import de.cau.cs.kieler.kiml.options.LayoutOptions
 import de.cau.cs.kieler.klighd.SynthesisOption
+import de.cau.cs.kieler.klighd.kgraph.KNode
+import de.cau.cs.kieler.klighd.krendering.KContainerRendering
+import de.cau.cs.kieler.klighd.krendering.extensions.KColorExtensions
+import de.cau.cs.kieler.klighd.krendering.extensions.KContainerRenderingExtensions
+import de.cau.cs.kieler.klighd.krendering.extensions.KEdgeExtensions
+import de.cau.cs.kieler.klighd.krendering.extensions.KNodeExtensions
+import de.cau.cs.kieler.klighd.krendering.extensions.KPolylineExtensions
+import de.cau.cs.kieler.klighd.krendering.extensions.KRenderingExtensions
 import de.cau.cs.kieler.klighd.syntheses.AbstractDiagramSynthesis
 import java.util.List
 import javax.inject.Inject
+import org.eclipse.elk.core.options.CoreOptions
+import org.eclipse.elk.core.options.Direction
+import org.eclipse.elk.core.options.EdgeType
 import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
@@ -112,18 +111,6 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
     /**
      * {@inheritDoc}<br>
      * <br>
-     * Registers reasonable layout options that are recommended to users to tailor the constructed diagram layouts.
-     */
-    override public getDisplayedLayoutOptions() {
-        return ImmutableList::of(
-            specifyLayoutOption(LayoutOptions::DIRECTION, Direction::values().drop(1).sortBy[ it.name ]),
-            specifyLayoutOption(LayoutOptions::SPACING, newArrayList(0, 255))
-        );
-    }
-
-    /**
-     * {@inheritDoc}<br>
-     * <br>
      * This main method creates the root node that represents the canvas of the diagram.
      * It configures some layout options adds the diagram elements by distinguishing the three option cases.
      * 
@@ -132,9 +119,9 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
      */
     override KNode transform(EModelElementCollection choice) {      
         return createNode() => [
-            it.addLayoutParam(LayoutOptions::ALGORITHM, "de.cau.cs.kieler.kiml.ogdf.planarization");
-            it.addLayoutParam(LayoutOptions::SPACING, 75f);
-            it.addLayoutParam(LayoutOptions::DIRECTION, Direction::UP);
+            it.addLayoutParam(CoreOptions::ALGORITHM, "de.cau.cs.kieler.kiml.ogdf.planarization");
+            it.addLayoutParam(CoreOptions::SPACING_NODE_NODE, 75.0);
+            it.addLayoutParam(CoreOptions::DIRECTION, Direction::UP);
         
             // The chosen (depicted) classifiers. This list will be supplemented with related classifiers,
             //  depending on the value of CLASS_FILTER.
@@ -354,7 +341,7 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
     
     def createInheritanceConnection(EClass child, EClass parent) {
         new Pair(child, parent).createEdge() => [
-            it.addLayoutParam(LayoutOptions::EDGE_TYPE, EdgeType::GENERALIZATION);
+            it.addLayoutParam(CoreOptions::EDGE_TYPE, EdgeType::GENERALIZATION);
             it.source = child.node;
             it.target = parent.node;
             it.data addPolyline() => [

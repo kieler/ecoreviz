@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Kieler Ecore Diagram View
 Bundle-Vendor: Christian-Albrechts-Universität zu Kiel
-Bundle-Version: 0.1.0.qualifier
+Bundle-Version: 0.2.0.qualifier
 Bundle-SymbolicName: de.cau.cs.kieler.ecoreviz; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javax.inject,
@@ -12,9 +12,8 @@ Require-Bundle: javax.inject,
  org.eclipse.ui.ide.application,
  org.eclipse.ui.navigator.resources,
  org.eclipse.xtext.xbase.lib;bundle-version="2.9.0",
- de.cau.cs.kieler.core.krendering,
- de.cau.cs.kieler.core.krendering.extensions,
- de.cau.cs.kieler.kiml,
  de.cau.cs.kieler.klighd,
- de.cau.cs.kieler.klighd.ui
+ de.cau.cs.kieler.klighd.ui,
+ de.cau.cs.kieler.klighd.krendering.extensions,
+ org.eclipse.elk.core
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
