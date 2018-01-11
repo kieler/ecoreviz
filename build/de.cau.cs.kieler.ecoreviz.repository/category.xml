@@ -15,10 +15,10 @@
 
    <!-- ECOREVIZ -->
 
-   <feature url="features/de.cau.cs.kieler.ecoreviz.1.0.qualifier.jar" id="de.cau.cs.kieler.ecoreviz.feature" version="0.1.0.qualifier">
+   <feature url="features/de.cau.cs.kieler.ecoreviz.0.2.0.qualifier.jar" id="de.cau.cs.kieler.ecoreviz.feature" version="0.2.0.qualifier">
       <category name="ecoreviz"/>
    </feature>
-   <feature url="features/de.cau.cs.kieler.ecoreviz.source_0.1.0.qualifier.jar" id="de.cau.cs.kieler.ecoreviz.feature.source" version="0.1.0.qualifier">
+   <feature url="features/de.cau.cs.kieler.ecoreviz.source_0.2.0.qualifier.jar" id="de.cau.cs.kieler.ecoreviz.feature.source" version="0.2.0.qualifier">
       <category name="ecoreviz"/>
    </feature>
 
