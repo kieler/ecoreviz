@@ -7,7 +7,7 @@ The whole thing is based on the [KIELER Lightweight Diagrams (KLighD)](http://ww
 
 ## Installing EcoreViz
 
-Automatic builds are done every night by the [KIELER Bamboo build system](http://rtsys.informatik.uni-kiel.de/bamboo). To install EcoreViz, open your Eclipse installation and select _Install New Software..._ from the _Help_ menu. Use the following update site:
+Automatic builds are done on every update by the [GitHub Actions CI Builds](https://github.com/kieler/debukviz/actions). To install EcoreViz, open your Eclipse installation and select _Install New Software..._ from the _Help_ menu. Use the following update site:
 
 > http://rtsys.informatik.uni-kiel.de/~kieler/updatesite/nightly-openkieler/
 
@@ -42,7 +42,7 @@ You will first need an Eclipse installation to hack away on OpenKieler with. Sin
 
 2. Start the installer. Click the Hamburger button at the top right corner and select Advanced Mode. Why? Because we're computer scientists, that's why!
 
-3. Next, we need to tell Oomph to get everything ready for OpenKieler development. Download our [Oomph setup file](https://raw.githubusercontent.com/OpenKieler/config/master/OpenKieler.setup), click the Plus button at the top right corner and add the setup file to the Github Projects catalog. Double-click the new OpenKieler entry. This will cause an item to appear in the table at the bottom of the window. Once you're done, click Next.
+3. Next, we need to tell Oomph to get everything ready for OpenKieler development. Download our [Oomph setup file](https://raw.githubusercontent.com/kieler/ecoreviz/master/oomph/OpenKieler.setup), click the Plus button at the top right corner and add the setup file to the Github Projects catalog. Double-click the new Ecoreviz entry. This will cause an item to appear in the table at the bottom of the window. Once you're done, click Next.
 
 3. Oomph now asks you to enter some more information. You can usually leave the settings as is, except for the Installation folder name. This will be the directory under which all your Eclipse installations installed with Oomph will appear, each in a separate sub-directory. Select a proper directory and click Next.
 
