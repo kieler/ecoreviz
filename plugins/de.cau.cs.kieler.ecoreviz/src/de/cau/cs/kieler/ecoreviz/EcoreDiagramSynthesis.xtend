@@ -14,8 +14,6 @@
 package de.cau.cs.kieler.ecoreviz
 
 import com.google.common.collect.ImmutableList
-import com.google.common.collect.Lists
-import com.google.common.collect.Sets
 import de.cau.cs.kieler.klighd.SynthesisOption
 import de.cau.cs.kieler.klighd.kgraph.KNode
 import de.cau.cs.kieler.klighd.krendering.KContainerRendering
@@ -26,12 +24,10 @@ import de.cau.cs.kieler.klighd.krendering.extensions.KNodeExtensions
 import de.cau.cs.kieler.klighd.krendering.extensions.KPolylineExtensions
 import de.cau.cs.kieler.klighd.krendering.extensions.KRenderingExtensions
 import de.cau.cs.kieler.klighd.syntheses.AbstractDiagramSynthesis
-import java.util.List
 import javax.inject.Inject
 import org.eclipse.elk.core.options.CoreOptions
 import org.eclipse.elk.core.options.Direction
 import org.eclipse.elk.core.options.EdgeType
-import org.eclipse.emf.ecore.EAttribute
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.emf.ecore.EClassifier
 import org.eclipse.emf.ecore.EEnum
@@ -39,25 +35,19 @@ import org.eclipse.emf.ecore.EPackage
 import org.eclipse.emf.ecore.EReference
 import org.eclipse.emf.ecore.EcorePackage
 
-import static de.cau.cs.kieler.klighd.KlighdConstants.*
-
 import static extension com.google.common.base.Strings.*
+import de.cau.cs.kieler.klighd.krendering.extensions.KLabelExtensions
+import de.cau.cs.kieler.klighd.microlayout.PlacementUtil
+import de.cau.cs.kieler.klighd.krendering.KTextUtil
+import de.cau.cs.kieler.klighd.krendering.KRenderingFactory
 
 /**
- * This diagram synthesis implementation demonstrates the usage of KLighD for the purpose of
- * representing content of models by means of graph-like diagrams.
+ * This Synthesis visualizes the class diagramm contained in a given EPackage.
+ * It is meant to be used alongside an ECore model editor.
  * 
- * This translation provides the following synthesis options:
- * <ol>
- *  <li>Depicting the selected classes only.</li>
- *  <li>Depicting the selected classes, and directly related ones.</li>
- *  <li>Depicting all classes of the Ecore model, the selected ones are highlighted.</li>
- *  <li>Depicting the attributes of the classes</li>
- * <ol>
- * 
- * @author chsch
+ * @author chsch/wechselberg
  */
-class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollection> {
+class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EPackage> {
     
     @Inject
     extension KNodeExtensions
@@ -77,35 +67,18 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
     @Inject
     extension KColorExtensions
     
-    private static val CHOSEN = "Chosen classes";
-    private static val CHOSEN_AND_RELATED = "Chosen (highlighted) && related classes";
-    private static val ALL = "All classes, selection highlighted";
-    
-    private static val String CLASS_FILTER_NAME = "Class filter";
-
-    /**
-     * The filter option definition that allows users to customize the constructed class diagrams.
-     */
-    private static val SynthesisOption CLASS_FILTER = SynthesisOption::createChoiceOption(CLASS_FILTER_NAME,
-       ImmutableList::of(CHOSEN, CHOSEN_AND_RELATED, ALL), CHOSEN_AND_RELATED);
-
-    /**
-     * Option to activate/deactivate the attribute lists.
-     */
-    private static val SynthesisOption RELATED_CLASSES_DEPTH = SynthesisOption::createRangeOption("Reference depth", 1, 3, 1, 1);
-    
-    /**
-     * Option choose the reference depth while determining the classes related to the selected ones.
-     */
-    private static val SynthesisOption ATTRIBUTES = SynthesisOption::createCheckOption("Attributes/Literals", false);
+    @Inject
+    extension KLabelExtensions
+        
+    static val SynthesisOption ATTRIBUTES = SynthesisOption::createCheckOption("Attributes/Literals", false);
     
     /**
      * {@inheritDoc}<br>
      * <br>
      * Registers the diagram filter option declared above, which allow users to tailor the constructed diagrams.
      */
-    override public getDisplayedSynthesisOptions() {
-        return ImmutableList::of(CLASS_FILTER, RELATED_CLASSES_DEPTH, ATTRIBUTES);
+    override getDisplayedSynthesisOptions() {
+        return ImmutableList::of(ATTRIBUTES);
     }
     
     /**
@@ -117,84 +90,14 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
      * Note that this translation added also the Classes contained in selected EPackages,
      * see the end of this method.
      */
-    override KNode transform(EModelElementCollection choice) {      
+    override KNode transform(EPackage selectedPackage) {
         return createNode() => [
             it.addLayoutParam(CoreOptions::ALGORITHM, "de.cau.cs.kieler.kiml.ogdf.planarization");
             it.addLayoutParam(CoreOptions::SPACING_NODE_NODE, 75.0);
             it.addLayoutParam(CoreOptions::DIRECTION, Direction::UP);
-        
-            // The chosen (depicted) classifiers. This list will be supplemented with related classifiers,
-            //  depending on the value of CLASS_FILTER.
-            val depictedClasses = choice.filter(typeof(EClassifier)).toList;
-        
-            if (CLASS_FILTER.objectValue == CHOSEN) {
-                
-                // create class and relation figures for each of the elements in the collection
-                depictedClasses.createElementFigures(it);
-                
-            } else if (CLASS_FILTER.objectValue == CHOSEN_AND_RELATED) {
-                
-                val ePackage = choice.filter(typeof(EClass))?.head?.eContainer as EPackage;
-                
-                val classesCopy = Sets::newHashSet(depictedClasses);
-                
-                (1..RELATED_CLASSES_DEPTH.intValue).forEach[
-                    classesCopy.filter(typeof(EClass)) => [
-                        // ... are inspected, and ...
-                        it.forEach[
-                            // ... their referenced classes ...
-                            depictedClasses.addAll(it.EStructuralFeatures.filter(typeof(EReference)).map[it.EType])
-                            // ... the classes referenced by their attributes (those contained in the current package)
-                            depictedClasses.addAll(it.EStructuralFeatures.filter(typeof(EAttribute)).map[it.EType]
-                                                .filter[it.eContainer == ePackage]
-                            )
-                        ];
-                        it.forEach[
-                            // ... as well as there super classes are put into the list of depicted classes, too.
-                            depictedClasses.addAll(it.ESuperTypes)
-                        ];
-                        depictedClasses.addAll(
-                            ((ePackage?.EClassifiers as List<EClassifier>)?:emptyList).filter(typeof(EClass)).filter[
-                                // look for candidates whose super types are in the choice
-                                val sts = Lists::newArrayList(it.ESuperTypes as Iterable<EClass>);
-                                // look for candidates whose reference types are in the choice
-                                sts.retainAll(classesCopy);
-                                val rts = Lists::newArrayList(it.EReferences as Iterable<EReference>).map[it.EType];
-                                rts.retainAll(classesCopy);
-                                !sts.empty || !rts.empty
-                            ]
-                        );
-                    ];
-                    classesCopy.addAll(depictedClasses);
-                ];
-                
-                depictedClasses.createElementFigures(it);
-
-                // each of the above given ones is highlighted in a special fashion
-                choice.filter(typeof(EClass)).forEach[
-                    it.node.KRendering.setBackgroundGradient("white".color, ALPHA_FULL_OPAQUE, "red".color, 150, 0);
-                ];
-                
-            } else { // (CLASS_FILTER.optionValue == ALL)
-                // depict all classes within the package of the first class in choice
-
-                val chosenClasse = Lists::newArrayList(depictedClasses);
-                
-                (depictedClasses?.head?.EPackage?.EClassifiers as List<EClassifier>)?:emptyList => [classes |
-                    // ... are depicted (it denotes the root node introduced above in this case)
-                    classes.createElementFigures(it)
-                    depictedClasses += classes;
-                ];
-                // each of the above given ones is highlighted in a special fashion
-                chosenClasse.forEach[
-                    it.node.KRendering.setBackgroundGradient("white".color, ALPHA_FULL_OPAQUE, "red".color, 150, 0);
-                ];
-            }
-        
-            choice.filter(typeof(EPackage)).forEach[ ePackage |
-                ePackage.EClassifiers => [ clazz |
-                    clazz.createElementFigures(it);
-                ];
+               
+            selectedPackage.EClassifiers => [ clazz |
+                clazz.createElementFigures(it);
             ];
         ];
     }
@@ -312,6 +215,9 @@ class EcoreDiagramSynthesis extends AbstractDiagramSynthesis<EModelElementCollec
         ref.createEdge() => [
             it.source = ref.eContainer.node;
             it.target = ref.EType.node;
+            if (!ATTRIBUTES.booleanValue) {
+                it.addTailEdgeLabel(ref.name + "\n" + ref.lowerBound + if (ref.lowerBound != ref.upperBound) {".." + if (ref.upperBound == -1) "*" else ref.upperBound} else "");
+            }
             it.addPolyline() => [
                 it.lineWidth = 2;
                 it.foreground = "gray25".color
